@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Assessment | Personalized Plan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="hp-page-container">
+
+    <div class="hp-content-layout" id="layout">
+
+        <div class="hp-inputs-column">
+            <h2 class="hp-section-label">Enter Your Details</h2>
+            <div id="mssg"></div>
+            <div class="hp-field-wrapper">
+                <label class="hp-input-tag">Age</label>
+                <input type="number" id="age" class="hp-text-input" placeholder="Years (e.g. 25)">
+            </div>
+
+            <div class="hp-field-wrapper">
+                <label class="hp-input-tag">Height</label>
+                <input type="number" id="height" class="hp-text-input" placeholder="Meters (e.g. 1.701)">
+            </div>
+
+            <div class="hp-field-wrapper">
+                <label class="hp-input-tag">Weight</label>
+                <input type="number" id="weight" class="hp-text-input" placeholder="Kilograms (e.g. 70)">
+            </div>
+
+            <button type="button" class="hp-submit-button" onclick=plan()>Get My Plan</button>
+        </div>
+
+        <div class="hp-info-column">
+            <h1 class="hp-hero-heading">Transform Your Health Today</h1>
+            <p class="hp-description-para">
+                Understanding your body metrics is the first step toward a healthier version of yourself. Your
+                <strong>Age, Height, and Weight</strong> provide the essential data needed to calculate your metabolic
+                rate and physical requirements.
+                <br><br>
+                By submitting these details, our system will generate a <strong>personalized wellness strategy</strong>
+                including tailored nutrition advice and workout routines designed specifically for your body type.
+            </p>
+        </div>
+
+    </div>
+    <div id="result">
+
+    </div>
+
+    <script src="plan.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,507 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 999px;
+    height: 550px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1.6px 3.6px 0 rgb(0 0 0 / 13%), 0 0.3px 0.9px 0 rgb(0 0 0 / 11%);
+}
+
+/* Left Panel Styles */
+.left-panel {
+    flex: 1.2;
+    background-image: url(https://i.pinimg.com/736x/51/db/42/51db42133c9715c18a7c835ff984e2db.jpg);
+    color: white;
+    padding: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    font-style: italic;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+.hero-content h1 {
+    font-size: 2.2rem;
+    line-height: 1.1;
+    z-index: 2;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.hero-content span {
+    color: #ff4d6d;
+}
+
+.model-img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 90%;
+    opacity: 0.8;
+}
+
+/* Right Panel Styles */
+.right-panel {
+    flex: 1;
+    padding: 50px 40px;
+    display: flex;
+    align-items: center;
+}
+
+.login-box {
+    width: 100%;
+}
+
+.login-box h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.login-box p {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    background: #fdfdfd;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 25px;
+    color: #7d2a3f;
+}
+
+.options a {
+    text-decoration: none;
+    color: #7d2a3f;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #7d2a3f;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #5a1e2d;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.85rem;
+}
+
+.signup-link a {
+    color: #7d2a3f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-text {
+    font-size: 0.65rem;
+    color: #aaa;
+    margin-top: 40px;
+    text-align: center;
+}
+
+label {
+    display: flex;
+    gap: 2px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+
+    }
+
+    .left-panel {
+        display: none;
+    }
+
+    .input-group input {
+        padding: 15px;
+    }
+
+    .login-btn {
+        padding: 20px;
+    }
+
+    .container {
+        background: transparent;
+    }
+
+    .body {
+        background-image:
+            linear-gradient(rgba(36, 36, 36, 0.9), rgba(0, 0, 0, 0.9)),
+            url(https://i.pinimg.com/736x/51/db/42/51db42133c9715c18a7c835ff984e2db.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .login-box h2 {
+        color: white;
+    }
+
+    .login-box p {
+        color: whitesmoke;
+    }
+
+    .options,
+    .options a {
+        color: aliceblue;
+    }
+
+    .signup-link a {
+        color: whitesmoke;
+    }
+
+    .footer-text {
+        color: #dadada;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .login-box h2 {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 450px) {
+    .login-box p {
+        margin-bottom: 18px;
+    }
+
+    .footer-text {
+        margin-top: 14px;
+    }
+
+    .container {
+        box-shadow: none;
+    }
+
+    .right-panel {
+        padding: 0px;
+
+    }
+
+    .login-btn {
+        padding: 12px;
+    }
+
+    .input-group input {
+        padding: 10px;
+    }
+
+}
+
+@media (max-width: 360px) {
+    .login-box h2 {
+        font-size: 1.2rem;
+    }
+
+    .login-box p {
+        font-size: 0.8rem;
+    }
+
+    .options {
+        font-size: 0.8rem;
+    }
+}
+
+/* DETAIL.HTML-PAGE */
+.hp-page-container {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #2d3436;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.hp-content-layout {
+    display: flex;
+    max-width: 1100px;
+    width: 90%;
+    gap: 80px;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.hp-inputs-column {
+    flex: 1;
+    width: 100%;
+}
+
+.hp-info-column {
+    flex: 1;
+}
+
+.hp-hero-heading {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #00b894;
+    line-height: 1.2;
+}
+
+.hp-section-label {
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-weight: 400;
+    color: #636e72;
+}
+
+.hp-description-para {
+    line-height: 1.8;
+    font-size: 18px;
+    color: #636e72;
+}
+
+.hp-field-wrapper {
+    margin-bottom: 30px;
+}
+
+.hp-input-tag {
+    display: block;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    font-weight: 800;
+    color: #2d3436;
+}
+
+.hp-text-input {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 18px;
+    border: none;
+    border-bottom: 2px solid #dfe6e9;
+    outline: none;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.hp-text-input:focus {
+    border-bottom: 2px solid #00b894;
+}
+
+.hp-submit-button {
+    margin-top: 20px;
+    padding: 16px 55px;
+    background-color: #00b894;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hp-submit-button:hover {
+    background-color: #00947a;
+    box-shadow: 0 10px 20px rgba(0, 184, 148, 0.25);
+    transform: translateY(-3px);
+}
+
+@media (max-width: 850px) {
+    .hp-content-layout {
+        flex-direction: column-reverse;
+        text-align: left;
+        gap: 50px;
+        padding: 20px 0;
+    }
+}
+
+
+
+.plan-container {
+    background-image: linear-gradient(rgba(36, 36, 36, 0.9), rgba(0, 0, 0, 0.9)), url(https://i.pinimg.com/736x/51/db/42/51db42133c9715c18a7c835ff984e2db.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+.plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.brand {
+    font-style: italic;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.plan-info {
+    text-align: center;
+}
+
+.plan-info h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+.fit-text {
+    color: #ff4d4d;
+    font-weight: bold;
+}
+
+.plan-body {
+    display: flex;
+    gap: 20px;
+}
+
+.workout-box {
+
+    flex: 1;
+    background-color: #a3b18a;
+    color: #1b1b1b;
+    padding: 25px;
+    border-radius: 15px;
+
+}
+
+.workout-box h3 {
+
+    background-color: #588157;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 18px;
+    margin-top: 15px;
+
+}
+
+.workout-box li {
+
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+}
+
+.diet-box {
+    flex: 1;
+    background-color: #a3b18a;
+    
+    color: #1b1b1b;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.section-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.diet-box h3 {
+    background-color: #588157;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 18px;
+    margin-top: 15px;
+}
+
+.diet-box ul,
+.workout-box ul {
+
+    padding: 10px 20px;
+}
+
+.diet-box li {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.plan-footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 12px;
+    color: #888;
+}
+
+.workout-box h2 {
+    text-align: center;
+}
+@media (max-width:500px) {
+.plan-body{
+    flex-direction: column;
+}
+.plan-header{
+    flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.plan-info{
+    text-align: left;
+}
+
+}
