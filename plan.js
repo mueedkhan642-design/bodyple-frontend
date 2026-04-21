@@ -5,7 +5,7 @@ const plan = () => {
     const result = document.getElementById("result");
 
     const BMI = (weight) / (height * height);
-
+    
     let heading = "";
     let category = "";
     let workout = "";
@@ -54,12 +54,12 @@ const plan = () => {
         </ul>
 
         <h3>Tips:</h3>
-    <ul>
-    <li>Increase protein intake</li>
-    <li>Avoid Junk Food</li>
-    <li>Eat in calorie surplus</li>
-    <li>Stay consistent</li>
-    </ul>
+        <ul>
+         <li>Increase protein intake</li>
+         <li>Avoid Junk Food</li>
+         <li>Eat in calorie surplus</li>
+         <li>Stay consistent</li>
+        </ul>
         `;
             diet = `
             <h3>Breakfast</h3>
@@ -102,16 +102,16 @@ const plan = () => {
             heading = "Your 4-week Fitness Plan";
             category = "Underweight";
             workout = `
-<h2>WORKOUT PLAN ❚█══█❚</h2>
+        <h2>WORKOUT PLAN ❚█══█❚</h2>
 
-<h3>Day 1: Chest + Triceps</h3>
-<ul>
- <li>Push ups                    Reps 8–10 × 3 sets</li>
- <li>Bench Press (light/moderate)Reps 8–10 × 3 sets</li>
- <li>Incline Dumbbell Press      Reps 8–10 × 3 sets</li>
- <li>Dumbbell Overhead Tricep    Reps 10–12 × 3 sets</li>
- <li>Rope Pushdowns Tricep       Reps 10–12 × 3 sets</li>
-</ul>
+        <h3>Day 1: Chest + Triceps</h3>
+            <ul>
+             <li>Push ups                    Reps 8–10 × 3 sets</li>
+             <li>Bench Press (light/moderate)Reps 8–10 × 3 sets</li>
+             <li>Incline Dumbbell Press      Reps 8–10 × 3 sets</li>
+             <li>Dumbbell Overhead Tricep    Reps 10–12 × 3 sets</li>
+            <li>Rope Pushdowns Tricep       Reps 10–12 × 3 sets</li>
+            </ul>
 
 <h3>Day 2: Back + Biceps</h3>
 <ul>
