@@ -6,7 +6,6 @@ const Login = () => {
     const userFound = users.find(u => u.email === user && u.password === pass);
     if (userFound) {
         window.location.href = "detail.html";
-        // console.log("login!");
     } else {
         document.getElementById("mssg").innerText = "Fill the information correct";
         document.getElementById("mssg").style.color = "red"
