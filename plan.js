@@ -70,7 +70,7 @@ const plan = () => {
     } 
     const BMI = (weight) / (heightInMeters * heightInMeters);
 
-    let heading = "";
+    let heading = ""; 
     let category = "";
     let workout = "";
     let diet = "";
