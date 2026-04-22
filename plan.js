@@ -1,20 +1,84 @@
+const userdata = JSON.parse(localStorage.getItem("user_data"))
+
+if (userdata) {
+    const lastUser = userdata[userdata.length - 1]
+    document.getElementById("guest").innerText = lastUser.username
+    document.getElementById("guest").style.color = "#2d3436"
+}
+
+const toggleHeight = () => {
+    const unit = document.getElementById("options").value;
+    const heightArea = document.getElementById("height_area");
+    const selectHtml = document.getElementById("options").outerHTML;
+
+    if (unit === "feet") {
+        heightArea.innerHTML = `
+        <div style="display: flex; gap: 5px; width: 100%;">
+             <input type="number" id="ft" class="hp-text-input" placeholder="Ft" style="width: 25%;">
+             <input type="number" id="in" class="hp-text-input" placeholder="In" style="width: 25%;">
+             ${selectHtml}
+        </div>     
+        `;
+    } else if (unit === "Inches") {
+        heightArea.innerHTML = `
+        <div style="display: flex; width: 100%;">
+             <input type="number" id="height" class="hp-text-input" placeholder="Inches (e.g. 66)">
+             ${selectHtml}
+        </div>
+    `;
+    } else if (unit === "Meters") {
+        heightArea.innerHTML = `
+        <div style="display: flex; width: 100%;">
+             <input type="number" id="height" class="hp-text-input" placeholder="meters (e.g. 1.701)">
+             ${selectHtml}
+        </div>
+    `;
+    } else if (unit === "centimeters") {
+        heightArea.innerHTML = `
+        <div style="display: flex; width: 100%;">
+             <input type="number" id="height" class="hp-text-input" placeholder="cm (e.g. 167.64)">
+             ${selectHtml}
+        </div>
+    `;
+    }
+    document.getElementById("options").value = unit;
+}
 const plan = () => {
     const age = parseFloat(document.getElementById("age").value);
-    const height = parseFloat(document.getElementById("height").value);
+    const unit = document.getElementById("options").value;
     const weight = parseFloat(document.getElementById("weight").value);
     const result = document.getElementById("result");
+    let heightInMeters = 0;
 
-    const BMI = (weight) / (height * height);
-    
+    if (unit === "feet") {
+        const ft = parseFloat(document.getElementById("ft").value);
+        const In = parseFloat(document.getElementById("in").value);
+
+        heightInMeters = (ft * 0.3048) + (In * 0.0254);
+    } else if (unit === "Inches") {
+        const val = parseFloat(document.getElementById("height").value);
+
+        heightInMeters = val * 0.0254;
+    } else if (unit === "centimeters") {
+        const val = parseFloat(document.getElementById("height").value);
+
+        heightInMeters = val / 100;
+    } else {
+        const val = parseFloat(document.getElementById("height").value);
+
+        heightInMeters = val;
+    }
+    const BMI = (weight) / (heightInMeters * heightInMeters);
+
     let heading = "";
     let category = "";
     let workout = "";
     let diet = "";
-    if (!age || !height || !weight) {
+    if (!age || !heightInMeters || !weight) {
         document.getElementById("mssg").innerText = "Kindly fill the correct information!";
         return;
     }
-    
+
     if (BMI < 18.5) {
         if (age >= 14 && age <= 45) {
             heading = "Your 4-week Fitness Plan";

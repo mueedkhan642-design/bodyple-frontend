@@ -282,7 +282,9 @@ label {
     align-items: center;
     padding: 40px 0;
 }
-
+.hp-inputs-column h1{
+    color: #2d3436;
+}
 .hp-inputs-column {
     flex: 1;
     width: 100%;
@@ -325,7 +327,9 @@ label {
     font-weight: 800;
     color: #2d3436;
 }
-
+.height{
+    display: flex
+}
 .hp-text-input {
     width: 100%;
     padding: 12px 0;
@@ -359,7 +363,37 @@ label {
     box-shadow: 0 10px 20px rgba(0, 184, 148, 0.25);
     transform: translateY(-3px);
 }
+#options {
+    font-family: inherit;
+    font-size: 14px;
+    color: #555;
+    background-color: transparent;
+    padding: 8px 30px 8px 10px;
+    border: 1px solid #ccc; 
+    border-radius: 4px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    
+    transition: border-color 0.3s ease;
+}
 
+#options:hover, #options:focus {
+    outline: none;
+    border-color: #00c096; 
+}
+.height input {
+    flex: 1; 
+}
+@media (max-width: 600px) {
+    #options {
+        font-size: 16px; 
+    }
+}
 @media (max-width: 850px) {
     .hp-content-layout {
         flex-direction: column-reverse;

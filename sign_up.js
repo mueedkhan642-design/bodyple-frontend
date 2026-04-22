@@ -3,6 +3,7 @@ let users = JSON.parse(localStorage.getItem("user_data")) || [];
 const SignUp = () => {
     const user = document.getElementById("SignUp_eml").value;
     const pass = document.getElementById("SignUp_pas").value;
+    const name = document.getElementById("username").value;
 
     const userExists = users.find(u => u.email === user)
     if (userExists) {
@@ -11,7 +12,7 @@ const SignUp = () => {
         return;
     }
     if (user && pass) {
-        users.push({ email: user, password: pass });
+        users.push({ email: user, password: pass, username: name });
         localStorage.setItem("user_data", JSON.stringify(users));
         window.location.href = "detail.html"
     } else {
