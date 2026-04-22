@@ -67,7 +67,7 @@ const plan = () => {
         const val = parseFloat(document.getElementById("height").value);
 
         heightInMeters = val;
-    }
+    } 
     const BMI = (weight) / (heightInMeters * heightInMeters);
 
     let heading = "";
