@@ -1,6 +1,6 @@
 let users = JSON.parse(localStorage.getItem("user_data")) || [];
 
-const SignUp = () => {
+const SignUp = () => { 
     const user = document.getElementById("SignUp_eml").value;
     const pass = document.getElementById("SignUp_pas").value;
     const name = document.getElementById("username").value;

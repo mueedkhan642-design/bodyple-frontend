@@ -319,7 +319,7 @@ label {
 }
 
 .hp-input-tag {
-    display: block;
+    display: block; 
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 1.5px;

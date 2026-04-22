@@ -48,7 +48,7 @@ const plan = () => {
     const unit = document.getElementById("options").value;
     const weight = parseFloat(document.getElementById("weight").value);
     const result = document.getElementById("result");
-    let heightInMeters = 0;
+    let heightInMeters = 0; 
 
     if (unit === "feet") {
         const ft = parseFloat(document.getElementById("ft").value);
