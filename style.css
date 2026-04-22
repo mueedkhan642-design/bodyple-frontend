@@ -379,7 +379,6 @@ label {
     background-position: right 8px center;
     background-size: 12px;
     
-    transition: border-color 0.3s ease;
 }
 
 #options:hover, #options:focus {
