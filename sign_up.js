@@ -19,4 +19,4 @@ const SignUp = () => {
         document.getElementById("mssg").innerText = "Fill the information";
         document.getElementById("mssg").style.color = "red"
     }
-}
+} 
