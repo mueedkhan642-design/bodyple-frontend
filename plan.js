@@ -47,8 +47,9 @@ const plan = () => {
     const age = parseFloat(document.getElementById("age").value);
     const unit = document.getElementById("options").value;
     const weight = parseFloat(document.getElementById("weight").value);
+    const error = document.getElementById("error-message");
     const result = document.getElementById("result");
-    let heightInMeters = 0; 
+    let heightInMeters = 0;
 
     if (unit === "feet") {
         const ft = parseFloat(document.getElementById("ft").value);
@@ -78,7 +79,10 @@ const plan = () => {
         document.getElementById("mssg").innerText = "Kindly fill the correct information!";
         return;
     }
-
+    if (age < 14) {
+        error.innerText = "You must be at least 14 years old to receive a fitness plan."
+        return;
+    }
     if (BMI < 18.5) {
         if (age >= 14 && age <= 45) {
             heading = "Your 4-week Fitness Plan";
@@ -128,23 +132,23 @@ const plan = () => {
             diet = `
             <h3>Breakfast</h3>
             <ul>
-            <li>2–3 eggs (boiled, scrambled, or omelet)</li>
-            <li>2 slices of whole-grain bread with peanut butter</li>
-            <li>1 banana or berries</li>
-            <li>1 glass of full-fat milk or a smoothie with yogurt</li>
+            <li>2 Eggs (boiled, scrambled, or omelet)</li>
+            <li>2 Slices of Bread with Peanut Butter</li>
+            <li>1 banana</li>
+            <li>1 glass of full-fat milk</li>
             </ul>
             
             <h3>Mid-Morning Snack</h3>
             <ul>
             <li>Handful of nuts (almonds, cashews, walnuts)</li>
-            <li>1 fruit (apple, mango, or orange)</li>
+            <li>Fruit (Apple or Orange)</li>
             </ul>
 
             <h3>Lunch</h3>
             <ul>
-            <li>1 cup cooked brown rice / quinoa / whole wheat pasta</li>
-            <li>1 cup cooked brown rice / quinoa / whole wheat pasta</li>
-            <li>1–2 cups cooked vegetables</li>
+            <li>250g Rice</li>
+            <li>150g Chicken</li>
+            <li>250g Veggies</li>
             <li>1 teaspoon olive oil on vegetables</li>
             </ul>
 
@@ -156,9 +160,9 @@ const plan = () => {
 
             <h3>Dinner</h3>
             <ul>
-            <li>1–2 chapatis or whole-grain bread</li>
-            <li>150g lean meat / lentils / beans / paneer</li>
-            <li>1–2 cups cooked vegetables</li>
+            <li>2 chapatis or whole-grain bread</li>
+            <li>150g lean meat/ fish / lentils / beans / paneer</li>
+            <li>1 glass of protein shake</li>
             <li>1 small serving of rice or quinoa</li>
             </ul>
             `
@@ -230,9 +234,9 @@ const plan = () => {
 
 <h3>Lunch</h3>
 <ul>
-<li>1 cup cooked brown rice / quinoa / whole wheat pasta</li>
-<li>150–200g grilled fish / chicken / paneer / lentils</li>
-<li>1–2 cups cooked vegetables (broccoli, carrots, beans)</li>
+<li>200g cooked brown rice / quinoa / whole wheat pasta</li>
+<li>150g grilled fish / chicken / paneer / lentils</li>
+<li>250g cooked vegetables (broccoli, carrots, beans)</li>
 <li>1 tsp olive oil or ghee on vegetables</li>
 </ul>
 
@@ -244,18 +248,11 @@ const plan = () => {
 
 <h3>Dinner</h3>
 <ul>
-<li>1–2 chapatis or whole-grain bread</li>
+<li>2 chapatis or whole-grain bread</li>
 <li>150g lean protein (chicken, fish, paneer, or legumes)</li>
-<li>1–2 cups cooked vegetables</li>
-<li>1 small serving of rice or quinoa</li>
-<li>Optional: 1 tsp olive oil or butter</li>
+<li>1 glass of protein shake</li>
 </ul>
 
-<h3>Before Bed</h3>
-<ul>
-<li>1 glass warm milk with honey</li>
-<li>Optional: handful of nuts</li>
-</ul>
 `;
         } else if (age >= 60) {
             heading = "Your 4-week Fitness Plan";
@@ -323,9 +320,9 @@ const plan = () => {
 
 <h3>Lunch</h3>
 <ul>
-<li>1 cup cooked rice / soft quinoa / whole wheat pasta</li>
-<li>100–150g soft protein (steamed fish, chicken, paneer, lentils)</li>
-<li>1–2 cups cooked vegetables (well-cooked or mashed if needed)</li>
+<li>150g cooked rice / soft quinoa / whole wheat pasta</li>
+<li>120g soft protein (steamed fish, chicken, paneer, lentils)</li>
+<li>200gcooked vegetables (well-cooked or mashed if needed)</li>
 <li>1 tsp olive oil or ghee for calories</li>
 </ul>
 
@@ -337,17 +334,11 @@ const plan = () => {
 
 <h3>Dinner</h3>
 <ul>
-<li>1–2 soft chapatis or bread</li>
-<li>100–150g protein (lentils, soft fish, chicken, or paneer)</li>
-<li>1–2 cups soft cooked vegetables</li>
-<li>Optional: 1 tsp olive oil or butter</li>
+<li>2 soft chapatis or bread</li>
+<li>120g protein (lentils, soft fish, chicken, or paneer)</li>
+<li>1 Small Glass Milk or Nutrition Shake</li>
 </ul>
 
-<h3>Before Bed</h3>
-<ul>
-<li>1 glass warm milk with honey</li>
-<li>Optional: a few soaked almonds or walnuts</li>
-</ul>
 `;
         }
     } else if (BMI >= 18.5 && BMI <= 25) {
@@ -427,9 +418,9 @@ const plan = () => {
 
 <h3>Lunch</h3>
 <ul>
-<li>1 cup brown rice / chapati (1–2)</li>
+<li>180g brown rice / chapati (2)</li>
 <li>150g chicken / fish / lentils / beans</li>
-<li>1–2 cups vegetables</li>
+<li>250g cooked vegetables</li>
 <li>1 tsp olive oil or ghee</li>
 </ul>
 
@@ -441,15 +432,11 @@ const plan = () => {
 
 <h3>Dinner</h3>
 <ul>
-<li>1–2 chapatis or small rice portion</li>
+<li>2 chapatis or small rice portion</li>
 <li>150g protein (chicken, fish, paneer, or dal)</li>
-<li>Cooked vegetables or salad</li>
+<li>1 standard Shake</li>
 </ul>
 
-<h3>Optional (Post-Workout)</h3>
-<ul>
-<li>Banana + milk or protein shake</li>
-</ul>
 `;
         } else if (age >= 46 && age <= 59) {
             heading = "Your 5-week Fitness Plan";
@@ -514,7 +501,7 @@ const plan = () => {
 <h3>Breakfast</h3>
 <ul>
 <li>2 eggs (boiled or omelet)</li>
-<li>1–2 slices whole-grain bread or oats</li>
+<li>2 slices whole-grain bread or oats</li>
 <li>1 fruit (apple, banana, or papaya)</li>
 <li>1 glass milk or yogurt</li>
 </ul>
@@ -527,9 +514,9 @@ const plan = () => {
 
 <h3>Lunch</h3>
 <ul>
-<li>1–2 chapatis or 1 cup brown rice</li>
-<li>120–150g chicken / fish / lentils</li>
-<li>1–2 cups vegetables</li>
+<li>2 chapatis or 150g brown rice</li>
+<li>150g chicken / fish / lentils</li>
+<li>300g vegetables</li>
 <li>1 tsp olive oil or ghee</li>
 </ul>
 
@@ -541,15 +528,11 @@ const plan = () => {
 
 <h3>Dinner</h3>
 <ul>
-<li>1–2 chapatis or small rice portion</li>
-<li>120–150g protein (chicken, fish, paneer, or dal)</li>
-<li>Cooked vegetables or salad</li>
+<li>2 chapatis or small rice portion</li>
+<li>150g protein (chicken, fish, paneer, or dal)</li>
+<li>1 glass of standard shake</li>
 </ul>
 
-<h3>Optional (Evening / Post-Workout)</h3>
-<ul>
-<li>Fruit + milk or light smoothie</li>
-</ul>
 `;
         } else if (age >= 60) {
             heading = "Your 5-week Fitness Plan";
@@ -611,8 +594,8 @@ const plan = () => {
 
 <h3>Breakfast</h3>
 <ul>
-<li>1–2 eggs (boiled or soft omelet)</li>
-<li>1–2 slices soft whole-grain bread or oats</li>
+<li>2 eggs (boiled or soft omelet)</li>
+<li>2 slices soft whole-grain bread or oats</li>
 <li>1 soft fruit (banana, papaya, or apple)</li>
 <li>1 glass milk or yogurt</li>
 </ul>
@@ -625,9 +608,9 @@ const plan = () => {
 
 <h3>Lunch</h3>
 <ul>
-<li>1–2 soft chapatis or small rice portion</li>
-<li>100–120g soft protein (chicken, fish, dal, paneer)</li>
-<li>1–2 cups well-cooked vegetables</li>
+<li>150g rice</li>
+<li>120g soft protein (chicken, fish, dal, paneer)</li>
+<li>250gs well-cooked vegetables</li>
 <li>1 tsp olive oil or ghee</li>
 </ul>
 
@@ -639,16 +622,11 @@ const plan = () => {
 
 <h3>Dinner</h3>
 <ul>
-<li>1–2 chapatis or light rice portion</li>
-<li>100–120g protein (dal, fish, chicken, or paneer)</li>
-<li>Soft cooked vegetables</li>
+<li>2 chapatis or light rice portion</li>
+<li>150g protein (dal, fish, chicken, or paneer)</li>
+<li>1 Whey Shake</li>
 </ul>
 
-<h3>Before Bed</h3>
-<ul>
-<li>1 glass warm milk</li>
-<li>Optional: 2–3 soaked almonds</li>
-</ul>
 `;
         }
     } else if (BMI > 25) {
@@ -732,9 +710,9 @@ const plan = () => {
 
 <h3>Lunch</h3>
 <ul>
-<li>1 chapati or small portion brown rice</li>
-<li>120–150g grilled chicken / fish / lentils</li>
-<li>Large portion of vegetables or salad</li>
+<li>1 chapati or 100g brown rice</li>
+<li>150g grilled chicken / fish / lentils</li>
+<li>350g vegetables or salad</li>
 <li>1 tsp olive oil (optional)</li>
 </ul>
 
@@ -747,14 +725,10 @@ const plan = () => {
 <h3>Dinner</h3>
 <ul>
 <li>1 chapati or no carbs (optional for faster fat loss)</li>
-<li>120g protein (chicken, fish, paneer, or dal)</li>
-<li>Boiled or steamed vegetables</li>
+<li>180g protein (chicken, fish, paneer, or dal)</li>
+<li>1 Whey Shake</li>
 </ul>
 
-<h3>Optional (Post-Workout)</h3>
-<ul>
-<li>Protein shake or boiled eggs</li>
-</ul>
 `;
         } else if (age >= 46 && age <= 59) {
             heading = "Your 5-week Fitness Plan";
@@ -835,9 +809,9 @@ const plan = () => {
 
 <h3>Lunch</h3>
 <ul>
-<li>1 chapati or small portion brown rice</li>
-<li>120–150g grilled chicken / fish / lentils</li>
-<li>Large portion of vegetables or salad</li>
+<li>1 chapati or 80g brown rice</li>
+<li>150g grilled chicken / fish / lentils</li>
+<li>350g vegetables or salad</li>
 <li>1 tsp olive oil (optional)</li>
 </ul>
 
@@ -850,13 +824,8 @@ const plan = () => {
 <h3>Dinner</h3>
 <ul>
 <li>1 chapati or very small rice portion</li>
-<li>120g protein (chicken, fish, dal, or paneer)</li>
-<li>Boiled or steamed vegetables</li>
-</ul>
-
-<h3>Optional (Post-Workout)</h3>
-<ul>
-<li>Boiled eggs or light protein shake</li>
+<li>150g protein (chicken, fish, dal, or paneer)</li>
+<li>1 Whey Shake</li>
 </ul>
 `;
         } else if (age >= 60) {
@@ -923,7 +892,7 @@ const plan = () => {
 
 <h3>Breakfast</h3>
 <ul>
-<li>1–2 soft-boiled eggs or omelet</li>
+<li>2 soft-boiled eggs or omelet</li>
 <li>1 slice whole-grain bread or soft oats</li>
 <li>1 soft fruit (banana, papaya, or apple)</li>
 <li>1 glass milk or yogurt</li>
@@ -937,9 +906,8 @@ const plan = () => {
 
 <h3>Lunch</h3>
 <ul>
-<li>1–2 soft chapatis or small rice portion</li>
-<li>100–120g soft protein (chicken, fish, dal, paneer)</li>
-<li>1–2 cups well-cooked vegetables</li>
+<li>1 soft chapatis or 80g rice</li>
+<li>300g well-cooked vegetables</li>
 <li>1 tsp olive oil or ghee (optional)</li>
 </ul>
 
@@ -951,19 +919,15 @@ const plan = () => {
 
 <h3>Dinner</h3>
 <ul>
-<li>1–2 chapatis or small rice portion</li>
-<li>100–120g protein (dal, fish, chicken, or paneer)</li>
+<li>1 or small rice portion</li>
+<li>150g protein (dal, fish, chicken, or paneer)</li>
 <li>Boiled or steamed vegetables</li>
 </ul>
 
-<h3>Before Bed</h3>
-<ul>
-<li>1 glass warm milk</li>
-<li>Optional: 2–3 soaked almonds</li>
-</ul>
 `;
         }
     }
+    localStorage.setItem("user_fitness_category", category);
 
     // --- DISPLAY SECTION ---
     const leftPanel = document.getElementById("layout");
@@ -994,8 +958,9 @@ const plan = () => {
                 </div>
             </div>
 
-            
+            <div class ="dashboardbtn">
+                 <button onclick="window.location.href='dashboard.html';">Continue to Dashboard</button>
+            </div>
         </div>
     `;
 };
-

@@ -1,6 +1,6 @@
 let users = JSON.parse(localStorage.getItem("user_data")) || [];
 
-const SignUp = () => { 
+const SignUp = () => {
     const user = document.getElementById("SignUp_eml").value;
     const pass = document.getElementById("SignUp_pas").value;
     const name = document.getElementById("username").value;
@@ -14,6 +14,9 @@ const SignUp = () => {
     if (user && pass) {
         users.push({ email: user, password: pass, username: name });
         localStorage.setItem("user_data", JSON.stringify(users));
+
+        const generatedToken = 'user_token_' + Math.random().toString(36).substring(2);
+        localStorage.setItem("authToken", JSON.stringify(generatedToken));
         window.location.href = "detail.html"
     } else {
         document.getElementById("mssg").innerText = "Fill the information";

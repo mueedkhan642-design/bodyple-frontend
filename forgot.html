@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bodyple SignUp</title>
+    <title>Bodyple login</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -22,35 +22,32 @@
             <div class="right-panel">
                 <div class="login-box">
                     <h2>Welcome to Bodyple!</h2>
-                    <p>Please create your account</p>
+                    <p>Please enter you correct email and new password</p>
 
-                    <form> 
+                    <form>
                         <div id="mssg"></div>
+
                         <div class="input-group">
-                            <input type="name" placeholder="Full name" required id="username">
+                            <input type="email" placeholder="Email" id="login_eml">
                         </div>
                         <div class="input-group">
-                            <input type="email" placeholder="Email" required id="SignUp_eml">
-                        </div>
-                        <div class="input-group">
-                            <input type="password" placeholder="Password" required id="SignUp_pas">
+                            <input type="password" placeholder="New Password" required id="login_pas">
                         </div>
 
                         <div class="options">
                             <label><input type="checkbox"> Remember Me</label>
-                            
                         </div>
 
-                        <button type="button" class="login-btn" onclick=SignUp()>Create an account</button>
+                        <button type="button" class="login-btn" onclick=forgotpassword()>Reset Password</button>
                     </form>
 
-                    <p class="signup-link"><a href="index.html">Already have an account?</a></p>
+                    <p class="signup-link">Not a member? <a href="sign_up.html">Create New Account</a></p>
                     <div class="footer-text">© Copyright 2026 All Rights Reserved | Terms of Use</div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="sign_up.js"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>

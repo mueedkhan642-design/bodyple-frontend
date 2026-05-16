@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="dashboard">
+        <div class="dashboard_left">
+            <div class="dashboardleftop">
+                <div class="llogo">Bodyple</div>
+                <button class="pgs">
+                    <img src="images/chart-line-solid.svg" alt="">
+                    <p>Progress</p>
+                </button>
+            </div>
+            <button class="dashboardlefdown" onclick=logout()>
+                <img src="images/arrow-right-from-bracket-solid-full.svg" alt="Logout">
+                <span>Logout</span>
+            </button>
+        </div>
+
+        <div class="dasboard_right">
+            <div class="right_top">
+                <h2 id="dasboard_name">Welcome</h2>
+                <h3>Weekly Diet Progress Tracker</h3>
+                <p>Record your weekly diet and meals progress here.</p>
+            </div>
+
+            <div class="table-container">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Breakfast</th>
+                                <th>Lunch</th>
+                                <th>Dinner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Day 1</td>
+                                <td><textarea type="text" placeholder="2 egg, 50g oats..."></textarea></td>
+                                <td><textarea type="text" placeholder="1 chapati, 200g lentils..."></textarea></td>
+                                <td><textarea type="text" placeholder="100g fish, 1 cup rice..."></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Day 2</td>
+                                <td><textarea type="text" placeholder="1 banana, 1 cup milk..."></textarea></td>
+                                <td><textarea type="text" placeholder="1 chapati, 150g vegetables..."></textarea></td>
+                                <td><textarea type="text" placeholder="2 egg, 1 cup buttermilk..."></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Day 3</td>
+                                <td><textarea type="text" placeholder="2 bread, 1 cup yogurt..."></textarea></td>
+                                <td><textarea type="text" placeholder="1 cup rice, 200g lentils..."></textarea></td>
+                                <td><textarea type="text" placeholder="100g fish, 1 banana..."></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Day 4</td>
+                                <td><textarea type="text" placeholder="50g oats, 1 cup milk..."></textarea></td>
+                                <td><textarea type="text" placeholder="1 chapati, 150g vegetables..."></textarea></td>
+                                <td><textarea type="text" placeholder="100g fish, 240g yogurt..."></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Day 5</td>
+                                <td><textarea type="text" placeholder="1 egg, 1 banana..."></textarea></td>
+                                <td><textarea type="text" placeholder="1 cup rice, 200g lentils..."></textarea></td>
+                                <td><textarea type="text" placeholder="2 bread, 1 cup milk..."></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Day 6</td>
+                                <td><textarea type="text" placeholder="50g oats, 1 cup milk..."></textarea></td>
+                                <td><textarea type="text" placeholder="1 chapati, 150g vegetables..."></textarea></td>
+                                <td><textarea type="text" placeholder="1 protein shake..."></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Day 7</td>
+                                <td><textarea type="text" placeholder="2 bread, 250g yogurt..."></textarea></td>
+                                <td><textarea type="text" placeholder="1 cup rice, 150g vegetables..."></textarea></td>
+                                <td><textarea type="text" placeholder="1 glass protein shake..."></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="dashboard-footer">
+                <button class="save-dbtn" onclick=dailydata()>Save Data</button>
+                <button class="save-btn" id="weekly-btn" onclick=weeklydata()>Get Progress</button>
+            </div>
+            <!-- <div class="progressReport">
+                <h2>Progress Report</h2>
+                <div class="container">
+                    <div class="box1">
+                        <i class="fa-solid fa-chart-simple" style="color: #b0b0b0;"></i>
+                        <div class="progressBar">
+                            <div class="progressHeader">
+                                <h6>Perfomance: <span></span></h6>
+                            </div>
+                            <div class="progressPerc">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <p>Keep pushing!</p>
+                        </div>
+                    </div>
+                    <div class="box2">
+                        <div class="CalBar">
+                            <div class="CaloHeader">
+                                <h6>Calories</h6>
+                            </div>
+                            <div class="CaloPerc">
+                                <div class="Protein-fill"></div>
+                            </div>
+                            <p class="detail-text-calo">0/0 kcal</p>
+                        </div>
+                    </div>
+                    <div class="box3">
+                        <div class="ProBar">
+                            <div class="ProHeader">
+                                <h6>Protein</h6>
+                            </div>
+                            <div class="ProPerc">
+                                <div class="Protein-fill"></div>
+                            </div>
+                            <p class="detail-text-pro">0/0 g</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="remarks_box">
+                    Calculating your progress..
+                </div>
+            </div> -->
+            <div class="container-main" >
+                <h1 style="color: #f0f0f0; margin-bottom: 20px;">Daily Progress Report</h1>
+
+                <div class="row-top">
+                    <div class="performance-area">
+                        <div style="color: #888; font-size: 18px; margin-bottom: 10px;"> PERFORMANCE</div>
+                        <div class="score">0/100</div>
+                        <div class="bar-outer">
+                            <div class="bar-inner"></div>
+                        </div>
+                        <p style="color: #bbb; font-size: 14px;">Keep pushing!</p>
+                    </div>
+
+                    <div class="stats-sidebar">
+                        <div class="stat-item">
+                            <div class="stat-text">
+                                <small style="font-size: 18px; color: #888;">CALORIES</small>
+                                <h3>0%</h3>
+                                <div class="mini-bar-bg">
+                                    <div class="mini-bar-fill"></div>
+                                </div>
+                                <p>0 kcal / 0 kcal</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-item">
+                            <div class="stat-text">
+                                <small style="font-size: 18px; color: #888;">PROTEIN</small>
+                                <h3>0%</h3>
+                                <div class="mini-bar-bg">
+                                    <div class="mini-bar-fill"></div>
+                                </div>
+                                <p>0 g / 0 g</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="motivation-footer">
+                    <div style="font-size: 12px; color: #888; letter-spacing: 1px;">USER INSIGHT & MOTIVATION</div>
+                    <p style="margin-top: 10px;">Keep going, your consistency is paving the way to success. Fantastic
+                        work!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="dashboardProgress.js"></script>
+</body>
+
+</html>
