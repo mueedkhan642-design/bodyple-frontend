@@ -736,7 +736,7 @@ table textarea {
     resize: vertical;
     outline: none;
     box-sizing: border-box;
-    display: block;
+    display: block; 
     overflow: hidden;
     line-height: 1.5;
 }
@@ -1043,9 +1043,6 @@ tbody tr {
 }
 
 @media screen and (max-width: 500px) {
-    /* .dashboard-footer {
-        padding: 20px 10px 100px 10px; 
-    } */
 
     .save-dbtn,
     .save-btn {
@@ -1338,3 +1335,4 @@ tbody tr {
     font-size: 12px;
     color: #CCFF33;
 }
+

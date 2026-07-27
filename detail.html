@@ -2,6 +2,13 @@
 <html lang="en">
 
 <head>
+    <script>
+        const userId = localStorage.getItem("user_id");
+    
+        if (!userId || userId === "null" || userId === "undefined") {
+            window.location.replace("index.html");
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Assessment | Personalized Plan</title>
@@ -61,6 +68,17 @@
     </div>
 
     <script src="plan.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedName = localStorage.getItem("username");
+            if (savedName) {
+                const guestSpan = document.getElementById("guest");
+                if (guestSpan) {
+                    guestSpan.innerText = savedName;
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

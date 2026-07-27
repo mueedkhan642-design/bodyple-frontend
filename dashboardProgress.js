@@ -1,47 +1,43 @@
-const targets = {
-    "Underweight": { cal: 2800, protein: 145 },
-    "Underweight (Age 60+)": { cal: 2100, protein: 120 },
-    "Normal Weight (BMI 18.5–24.5)": { cal: 2200, protein: 150 },
-    "Normal Weight (Age 46–59)": { cal: 2200, protein: 150 },
-    "Normal Weight (Age 60+)": { cal: 1950, protein: 130 },
-    "Overweight (BMI >25)": { cal: 1750, protein: 150 },
-    "Overweight (Age 46–59)": { cal: 1700, protein: 140 },
-    "Overweight (Age 60+)": { cal: 1650, protein: 130 },
+let targets = {};
+let foodData = {};
+let dietDatabase = {};
 
-}
-const foodData = {
-    "cup vegetables": { cal: 60, protein: 2 },
-    "teaspoon oil": { cal: 45, protein: 0 },
-    "cup rice": { cal: 205, protein: 4.3 },
-    "rice": { cal: 1.30, protein: 0.03 },
-    "fish": { cal: 0.90, protein: 0.22 },
-    "chicken": { cal: 2, protein: 0.3 },
-    "oats": { cal: 3.89, protein: 0.17 },
-    "vegetables": { cal: 0.50, protein: 0.02 },
-    "yogurt": { cal: 0.6, protein: 0.035 },
-    "lentils": { cal: 1.1, protein: 0.26 },
-    "egg": { cal: 78, protein: 6.3 },
-    "bread": { cal: 80, protein: 3 },
-    "banana": { cal: 100, protein: 1 },
-    "milk": { cal: 150, protein: 8 },
-    "buttermilk": { cal: 110, protein: 9 },
-    "peanut butter": { cal: 95, protein: 4 },
-    "shake": { cal: 150, protein: 30 },
-    "chapati": { cal: 120, protein: 4 },
-    "paneer": { cal: 3.2, protein: 0.21 }
-}
-const dietDatabase = {
-    "Underweight": ["egg", "bread", "peanut butter", "banana", "milk", "oats", "honey", "rice", "fish", "chicken", "paneer", "vegetables", "yogurt", "legumes", "lentils", "beans", "shake"],
-    "Underweight (Age 60+)": ["egg", "bread", "peanut butter", "banana", "milk", "oats", "honey", "rice", "fish", "chicken", "paneer", "vegetables", "yogurt", "legumes", "lentils", "beans", "shake"],
-    "Normal Weight (BMI 18.5–24.5)": ["egg", "bread", "peanut butter", "banana", "milk", "yogurt", "fruit", "olive oil", "oats", "honey", "rice", "fish", "chicken", "paneer", "vegetables", "legumes", "lentils", "beans", "shake"],
-    "Normal Weight (Age 46–59)": ["egg", "bread", "peanut butter", "banana", "milk", "yogurt", "fruit", "olive oil", "oats", "honey", "rice", "fish", "chicken", "paneer", "vegetables", "legumes", "lentils", "beans", "shake"],
-    "Normal Weight (Age 60+)": ["egg", "bread", "peanut butter", "banana", "milk", "yogurt", "fruit", "olive oil", "oats", "honey", "rice", "fish", "chicken", "paneer", "vegetables", "legumes", "lentils", "beans", "shake"],
-    "Overweight (BMI >25)": ["egg", "bread", "fruit", "peanut butter", "banana", "whole-grain", "oats", "milk", "honey", "yogurt", "almonds", "walnuts", "fruit", "chapati", "rice", "vegetables", "oil", "ghee", "legumes", "buttermilk", "dal", "fish", "chicken", "paneer", "lentils", "beans", "shake"],
-    "Overweight (Age 46–49)": ["egg", "bread", "fruit", "peanut butter", "banana", "whole-grain", "oats", "milk", "honey", "yogurt", "almonds", "walnuts", "fruit", "chapati", "rice", "vegetables", "oil", "ghee", "legumes", "buttermilk", "dal", "fish", "chicken", "paneer", "lentils", "beans", "shake"],
-    "Overweight (Age 60+)": ["egg", "bread", "fruit", "peanut butter", "banana", "whole-grain", "oats", "milk", "honey", "yogurt", "almonds", "walnuts", "fruit", "chapati", "rice", "vegetables", "oil", "ghee", "legumes", "buttermilk", "dal", "fish", "chicken", "paneer", "lentils", "beans", "shake"]
-}
+const getActiveUserId = () => {
+    const directId = localStorage.getItem("user_id");
+    if (directId) return directId;
+    
+    try {
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        if (loggedInUser && loggedInUser.id) {
+            localStorage.setItem("user_id", loggedInUser.id); 
+            return loggedInUser.id;
+        }
+    } catch (e) {
+        console.error("Error reading user session", e);
+    }
+    return null;
+};
 
-const dailydata = () => {
+const fetchNutritionConfig = () => {
+    fetch('http://localhost:5000/get-nutrition-config')
+        .then(res => res.json())
+        .then(data => {
+            targets = data.targets || {};
+            foodData = data.foodData || {};
+            dietDatabase = data.dietDatabase || {};
+        })
+        .catch(err => console.error("Config fetch error:", err));
+};
+
+const saveDietToDB = () => {
+    const userId = getActiveUserId();
+    const category = localStorage.getItem("user_fitness_category") || "";
+
+    if (!userId) {
+        alert("User session not found! Please log out and log in again.");
+        return;
+    }
+
     const rows = document.querySelectorAll("tbody tr");
     let dailyEntries = [];
 
@@ -50,31 +46,162 @@ const dailydata = () => {
         if (inputs.length >= 3) {
             dailyEntries.push({
                 day: `Day ${index + 1}`,
-                breakfast: inputs[0].value,
-                lunch: inputs[1].value,
-                dinner: inputs[2].value
-            })
+                breakfast: inputs[0].value.trim(),
+                lunch: inputs[1].value.trim(),
+                dinner: inputs[2].value.trim()
+            });
         }
     });
-    localStorage.setItem("user_daily_diet", JSON.stringify(dailyEntries))
-    alert("Submit")
-}
+
+    const validEntries = dailyEntries.filter(
+        entry => entry.breakfast !== "" || entry.lunch !== "" || entry.dinner !== ""
+    );
+
+    localStorage.setItem("user_daily_diet", JSON.stringify(validEntries));
+
+    fetch('http://localhost:5000/save-diet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            userId: userId,
+            category: category,
+            dietData: dailyEntries
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            alert("Diet Plan successfully saved!");
+            disableInputs(true);
+            updateProgressButtonStatus();
+        })
+        .catch(err => {
+            console.error("Save Error:", err);
+            alert("Error saving diet plan to database.");
+        });
+};
+
+const loadSavedDiet = () => {
+    const userId = getActiveUserId();
+
+    if (!userId) {
+        console.warn("No user ID found in localStorage.");
+        return;
+    }
+
+    fetch(`http://localhost:5000/get-diet?userId=${userId}`)
+        .then(res => res.json())
+        .then(response => {
+            const dietData = response.data || [];
+            const savedCategory = response.category;
+
+            if (savedCategory && savedCategory.trim() !== "") {
+                localStorage.setItem("user_fitness_category", savedCategory);
+            }
+
+            const rows = document.querySelectorAll("tbody tr");
+
+            if (dietData.length > 0) {
+                dietData.forEach((entry, index) => {
+                    if (rows[index]) {
+                        const inputs = rows[index].querySelectorAll("textarea");
+                        if (inputs.length >= 3) {
+                            inputs[0].value = entry.breakfast || "";
+                            inputs[1].value = entry.lunch || "";
+                            inputs[2].value = entry.dinner || "";
+                        }
+                    }
+                });
+
+                const validEntries = dietData.filter(
+                    entry => (entry.breakfast && entry.breakfast.trim() !== "") ||
+                        (entry.lunch && entry.lunch.trim() !== "") ||
+                        (entry.dinner && entry.dinner.trim() !== "")
+                );
+
+                if (validEntries.length > 0) {
+                    disableInputs(true);
+                }
+
+                localStorage.setItem("user_daily_diet", JSON.stringify(validEntries));
+            }
+        })
+        .catch(err => console.error("Error loading diet:", err))
+        .finally(() => {
+            updateProgressButtonStatus();
+        });
+};
+
+const disableInputs = (shouldDisable) => {
+    const textareas = document.querySelectorAll("tbody textarea");
+    textareas.forEach(input => {
+        input.disabled = shouldDisable;
+
+        if (shouldDisable) {
+            input.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+            input.style.opacity = "0.6";
+            input.style.border = "1px solid transparent";
+        } else {
+            input.style.backgroundColor = "transparent";
+            input.style.opacity = "1";
+            input.style.border = "1px solid #82a884";
+        }
+    });
+
+    const saveBtn = document.getElementById("save-btn");
+    const editBtn = document.getElementById("edit-btn");
+
+    if (shouldDisable) {
+        if (saveBtn) saveBtn.style.display = "none";
+        if (editBtn) editBtn.style.display = "inline-block";
+    } else {
+        if (saveBtn) {
+            saveBtn.style.display = "inline-block";
+            saveBtn.innerText = "Update Data";
+        }
+        if (editBtn) editBtn.style.display = "none";
+    }
+};
+
+const toggleEditMode = () => {
+    disableInputs(false);
+};
+
+const updateProgressButtonStatus = () => {
+    const UserEntries = JSON.parse(localStorage.getItem("user_daily_diet")) || [];
+    const progressBtn = document.querySelector('.pgs');
+    const weeklyBtn = document.querySelector('#weekly-btn');
+
+    const isLessThan7Days = UserEntries.length < 7;
+
+    [progressBtn, weeklyBtn].forEach(btn => {
+        if (btn) {
+            btn.disabled = isLessThan7Days;
+
+            if (isLessThan7Days) {
+                btn.style.opacity = "0.5";
+                btn.style.cursor = "not-allowed";
+                btn.title = `Please enter at least 7 days of diet data to view progress. (${UserEntries.length}/7 days added)`;
+            } else {
+                btn.style.opacity = "1";
+                btn.style.cursor = "pointer";
+                btn.title = "View Weekly Progress";
+            }
+        }
+    });
+};
 
 const weeklydata = () => {
     const UserCategory = localStorage.getItem("user_fitness_category");
     const UserEntries = JSON.parse(localStorage.getItem("user_daily_diet"));
 
     if (!UserCategory || !UserEntries) {
-        alert("First, use daily data or check your plan.")
+        alert("First, use daily data or check your plan.");
         return;
     }
     if (UserEntries.length < 7) {
-        alert(`To see the average, it is necessary to have at least 7 days of data. Currently, only ${UserEntries.length} days of data are saved.`);
-        
-        if (visibleSection) {
-            visibleSection.style.display = "none";
-        }
-        return; 
+        alert(`At least 7 days of data required! Currently you have ${UserEntries.length} days.`);
+        if (visibleSection) visibleSection.style.display = "none";
+        return;
     }
 
     const targetCal = targets[UserCategory]?.cal || 2000;
@@ -84,6 +211,13 @@ const weeklydata = () => {
     let totalProtein = 0;
     let matchcount = 0;
 
+    const unitMultipliers = {
+        'liter': 1000, 'liters': 1000, 'l': 1000, 'kg': 1000,
+        'glass': 250, 'glasses': 250, 'cup': 240, 'cups': 240,
+        'tbsp': 15, 'tablespoon': 15, 'tablespoons': 15,
+        'tsp': 5, 'teaspoon': 5, 'teaspoons': 5, 'g': 1,
+        'gram': 1, 'grams': 1, 'ml': 1
+    };
 
     UserEntries.forEach(entry => {
         const fulldaytext = `${entry.breakfast} ${entry.lunch} ${entry.dinner}`.toLowerCase();
@@ -91,13 +225,17 @@ const weeklydata = () => {
         let dayProtein = 0;
 
         for (let item in foodData) {
-            const regex = new RegExp(`(\\d+(?:\\.\\d+)?)?\\s*(?:g|gram|grams|teaspoon|tsp|cup|cups|slice|slices)?\\s*(?:of)?\\s*\\b${item}(?:s|es)?\\b`, 'g');
-            let match
+            const regex = new RegExp(`(\\d+(?:\\.\\d+)?)?\\s*(liter|liters|l|kg|glass|glasses|cup|cups|tbsp|tablespoon|tablespoons|tsp|teaspoon|teaspoons|g|gram|grams|ml)?\\s*(?:of)?\\s*\\b${item}(?:s|es)?\\b`, 'g');
+            let match;
 
             while ((match = regex.exec(fulldaytext)) !== null) {
-                const quantity = match[1] ? parseFloat(match[1]) : 1;
-                dayCals += foodData[item].cal * quantity;
-                dayProtein += foodData[item].protein * quantity;
+                const rawQuantity = match[1] ? parseFloat(match[1]) : 1;
+                const unit = match[2] ? match[2].toLowerCase() : null;
+                let multiplier = (unit && unitMultipliers[unit]) ? unitMultipliers[unit] : 1;
+                const totalQuantity = rawQuantity * multiplier;
+
+                dayCals += foodData[item].cal * totalQuantity;
+                dayProtein += foodData[item].protein * totalQuantity;
             }
         }
 
@@ -107,38 +245,21 @@ const weeklydata = () => {
         const keywords = dietDatabase[UserCategory] || [];
         let dayMatch = 0;
         keywords.forEach(word => {
-            if (fulldaytext.includes(word.toLowerCase())) {
-                dayMatch++;
-            }
-        })
-        if (dayMatch >= 2) matchcount++
-    })
+            if (fulldaytext.includes(word.toLowerCase())) dayMatch++;
+        });
+        if (dayMatch >= 2) matchcount++;
+    });
+
     const daysLog = UserEntries.length || 1;
     const avgCals = totalCal / daysLog;
     const avgProtein = totalProtein / daysLog;
     const performance = (matchcount / daysLog) * 100;
 
     const calorieDiff = avgCals - targetCal;
-    let surplusDeficitMsg = "";
+    let surplusDeficitMsg = calorieDiff > 0
+        ? `Surplus of ${calorieDiff.toFixed(0)} kcal`
+        : `Deficit of ${Math.abs(calorieDiff).toFixed(0)} kcal`;
 
-    if (calorieDiff > 0) {
-        surplusDeficitMsg = `Surplus of ${calorieDiff.toFixed(0)} kcal`;
-    } else {
-        surplusDeficitMsg = `Deficit of ${Math.abs(calorieDiff).toFixed(0)} kcal`;
-    }
-
-    // console.log(`
-    //     --- WEEKLY PROGRESS REPORT ---
-    //     Performance: ${performance.toFixed(0)}% Adherence
-
-    //     Daily Average Intake:
-    //     - Calories: ${avgCals.toFixed(0)} / ${targetCal} kcal
-    //     - Protein: ${avgProtein.toFixed(1)} / ${targetProtein}g
-
-    //     Result: ${surplusDeficitMsg}
-    //     ${UserCategory === "Underweight" && calorieDiff < 0 ? "⚠️ You need to eat more to gain weight!" : ""}
-    //     ${UserCategory === "Overweight (Age 46–49)" && calorieDiff > 0 ? "⚠️ You need to reduce calories for fat loss!" : ""}
-    // `);
     const scoreElement = document.querySelector('.score');
     const barInner = document.querySelector('.bar-inner');
     if (scoreElement) scoreElement.innerText = `${performance.toFixed(0)}/100`;
@@ -150,18 +271,15 @@ const weeklydata = () => {
     const calBox = document.querySelectorAll('.stat-item')[0];
     if (calBox) {
         const calPercent = Math.min((avgCals / targetCal) * 100, 100);
-
         calBox.querySelector('h3').innerText = `${calPercent.toFixed(0)}%`;
         calBox.querySelector('.mini-bar-fill').style.width = `${calPercent}%`;
         calBox.querySelector('.mini-bar-fill').style.backgroundColor = "#d8967b";
-
         calBox.querySelector('p').innerText = `${avgCals.toFixed(0)} kcal / ${targetCal} kcal`;
     }
 
     const proBox = document.querySelectorAll('.stat-item')[1];
     if (proBox) {
         const proPercent = Math.min((avgProtein / targetProtein) * 100, 100);
-
         proBox.querySelector('h3').innerText = `${proPercent.toFixed(0)}%`;
         proBox.querySelector('.mini-bar-fill').style.width = `${proPercent}%`;
         proBox.querySelector('.mini-bar-fill').style.backgroundColor = "#d8967b";
@@ -171,18 +289,22 @@ const weeklydata = () => {
     const motivationText = document.querySelector('.motivation-footer p');
     if (motivationText) {
         let advice = `Your ${surplusDeficitMsg}. `;
-        if (UserCategory === "Underweight" && calorieDiff < 0) {
+        if (UserCategory.includes("Underweight") && calorieDiff < 0) {
             advice += "Try to increase nuts and dairy products so that they can grow!";
-        } else if (UserCategory === "Overweight (Age 46–49)" && calorieDiff > 0) {
-            advice += "Pay attention to port control and increase fiber for foot loss.";
+        } else if (UserCategory.includes("Overweight") && calorieDiff > 0) {
+            advice += "Pay attention to portion control and increase fiber for weight loss.";
         } else {
             advice += "Keep going, your consistency is paving the way to success. Fantastic work!";
         }
         motivationText.innerText = advice;
     }
+};
 
-
-}
+document.addEventListener("DOMContentLoaded", () => {
+    fetchNutritionConfig();
+    loadSavedDiet();
+    updateProgressButtonStatus();
+});
 
 const progressBtn = document.querySelector('.pgs');
 const weeklyBtn = document.querySelector('#weekly-btn');
@@ -191,34 +313,56 @@ const visibleSection = document.querySelector('.container-main');
 function toggleProgressBox() {
     if (visibleSection.style.display === "none" || visibleSection.style.display === "") {
         visibleSection.style.display = "block";
-        if (typeof weeklydata === 'function') {
-            weeklydata();
-        }
+        if (typeof weeklydata === 'function') weeklydata();
     } else {
         visibleSection.style.display = "none";
     }
 }
 
-if (progressBtn) {
-    progressBtn.addEventListener("click", toggleProgressBox);
-}
-
+if (progressBtn) progressBtn.addEventListener("click", toggleProgressBox);
 if (weeklyBtn) {
     weeklyBtn.addEventListener("click", () => {
-        if (visibleSection) {
-            visibleSection.style.display = "block";
-        }
-        if (typeof weeklydata === 'function') {
-            weeklydata();
-        }
+        if (visibleSection) visibleSection.style.display = "block";
+        if (typeof weeklydata === 'function') weeklydata();
     });
 }
+const loadUserBMIHistory = () => {
+    const userId = getActiveUserId();
+
+    if (!userId) {
+        return;
+    }
+
+    fetch(`http://localhost:5000/get-user-history?userId=${userId}`)
+        .then(async (res) => {
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error(data.error || data.message || "Server Error");
+            }
+            return data;
+        })
+        
+        .catch(err => console.error("Error fetching BMI history:", err.message));
+};
+
+
+
+document.addEventListener("DOMContentLoaded", loadUserBMIHistory);
+document.addEventListener("DOMContentLoaded", () => {
+    fetchNutritionConfig();
+    loadSavedDiet();
+    loadUserBMIHistory(); 
+    updateProgressButtonStatus();
+});
+
+
 
 const logout = () => {
-    try {
-        localStorage.removeItem("authToken")
-        window.location.href = "index.html"
-    } catch (error) {
-        alert("Did someone come across an example while doing the logOut?", error)
-    }
-}
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("authToken");
+    localStorage.clear(); 
+
+    window.location.replace("index.html");
+
+};

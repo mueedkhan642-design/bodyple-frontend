@@ -2,6 +2,13 @@
 <html lang="en">
 
 <head>
+    <script>
+        const userId = localStorage.getItem("user_id");
+    
+        if (!userId || userId === "null" || userId === "undefined") {
+            window.location.replace("index.html");
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
@@ -90,52 +97,12 @@
                 </div>
             </div>
             <div class="dashboard-footer">
-                <button class="save-dbtn" onclick=dailydata()>Save Data</button>
-                <button class="save-btn" id="weekly-btn" onclick=weeklydata()>Get Progress</button>
+                <button class="save-dbtn" id="save-btn" onclick="saveDietToDB()">Save Data</button>
+                <button class="save-dbtn" id="edit-btn" onclick="toggleEditMode()"
+                    style="display: none; background-color: #748e73;">Edit Data</button>
+                <button class="save-btn" id="weekly-btn" onclick="weeklydata()">Get Progress</button>
             </div>
-            <!-- <div class="progressReport">
-                <h2>Progress Report</h2>
-                <div class="container">
-                    <div class="box1">
-                        <i class="fa-solid fa-chart-simple" style="color: #b0b0b0;"></i>
-                        <div class="progressBar">
-                            <div class="progressHeader">
-                                <h6>Perfomance: <span></span></h6>
-                            </div>
-                            <div class="progressPerc">
-                                <div class="progress-fill"></div>
-                            </div>
-                            <p>Keep pushing!</p>
-                        </div>
-                    </div>
-                    <div class="box2">
-                        <div class="CalBar">
-                            <div class="CaloHeader">
-                                <h6>Calories</h6>
-                            </div>
-                            <div class="CaloPerc">
-                                <div class="Protein-fill"></div>
-                            </div>
-                            <p class="detail-text-calo">0/0 kcal</p>
-                        </div>
-                    </div>
-                    <div class="box3">
-                        <div class="ProBar">
-                            <div class="ProHeader">
-                                <h6>Protein</h6>
-                            </div>
-                            <div class="ProPerc">
-                                <div class="Protein-fill"></div>
-                            </div>
-                            <p class="detail-text-pro">0/0 g</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="remarks_box">
-                    Calculating your progress..
-                </div>
-            </div> -->
-            <div class="container-main" >
+            <div class="container-main">
                 <h1 style="color: #f0f0f0; margin-bottom: 20px;">Daily Progress Report</h1>
 
                 <div class="row-top">

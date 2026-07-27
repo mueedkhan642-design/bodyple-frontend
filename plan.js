@@ -1,9 +1,10 @@
-const userdata = JSON.parse(localStorage.getItem("user_data"))
-
-if (userdata) {
-    const lastUser = userdata[userdata.length - 1]
-    document.getElementById("guest").innerText = lastUser.username
-    document.getElementById("guest").style.color = "#2d3436"
+const savedUsername = localStorage.getItem("username");
+if (savedUsername) {
+    const guestElem = document.getElementById("guest");
+    if (guestElem) {
+        guestElem.innerText = savedUsername;
+        guestElem.style.color = "#2d3436";
+    }
 }
 
 const toggleHeight = () => {
@@ -42,47 +43,50 @@ const toggleHeight = () => {
     `;
     }
     document.getElementById("options").value = unit;
-}
+};
+
 const plan = () => {
     const age = parseFloat(document.getElementById("age").value);
     const unit = document.getElementById("options").value;
     const weight = parseFloat(document.getElementById("weight").value);
     const error = document.getElementById("error-message");
+    const mssg = document.getElementById("mssg");
     const result = document.getElementById("result");
+    
     let heightInMeters = 0;
 
     if (unit === "feet") {
-        const ft = parseFloat(document.getElementById("ft").value);
-        const In = parseFloat(document.getElementById("in").value);
-
+        const ft = parseFloat(document.getElementById("ft")?.value || 0);
+        const In = parseFloat(document.getElementById("in")?.value || 0);
         heightInMeters = (ft * 0.3048) + (In * 0.0254);
     } else if (unit === "Inches") {
-        const val = parseFloat(document.getElementById("height").value);
-
+        const val = parseFloat(document.getElementById("height")?.value || 0);
         heightInMeters = val * 0.0254;
     } else if (unit === "centimeters") {
-        const val = parseFloat(document.getElementById("height").value);
-
+        const val = parseFloat(document.getElementById("height")?.value || 0);
         heightInMeters = val / 100;
     } else {
-        const val = parseFloat(document.getElementById("height").value);
-
+        const val = parseFloat(document.getElementById("height")?.value || 0);
         heightInMeters = val;
     }
+
+    if (!age || !heightInMeters || !weight) {
+        if (mssg) mssg.innerText = "Kindly fill the correct information!";
+        return;
+    }
+
+    if (age < 14) {
+        if (error) error.innerText = "You must be at least 14 years old to receive a fitness plan.";
+        return;
+    }
+
     const BMI = (weight) / (heightInMeters * heightInMeters);
 
     let heading = "";
     let category = "";
     let workout = "";
     let diet = "";
-    if (!age || !heightInMeters || !weight) {
-        document.getElementById("mssg").innerText = "Kindly fill the correct information!";
-        return;
-    }
-    if (age < 14) {
-        error.innerText = "You must be at least 14 years old to receive a fitness plan."
-        return;
-    }
+
     if (BMI < 18.5) {
         if (age >= 14 && age <= 45) {
             heading = "Your 4-week Fitness Plan";
@@ -165,7 +169,7 @@ const plan = () => {
             <li>1 glass of protein shake</li>
             <li>1 small serving of rice or quinoa</li>
             </ul>
-            `
+            `;
         } else if (age >= 46 && age <= 59) {
             heading = "Your 4-week Fitness Plan";
             category = "Underweight";
@@ -927,40 +931,79 @@ const plan = () => {
 `;
         }
     }
+
+    const directId = localStorage.getItem("user_id");
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    const activeUserId = directId || (loggedInUser ? loggedInUser.id : null);
+
+    if (!activeUserId) {
+        alert("User session not found! Please login again.");
+        window.location.href = "index.html";
+        return;
+    }
+
     localStorage.setItem("user_fitness_category", category);
 
-    // --- DISPLAY SECTION ---
-    const leftPanel = document.getElementById("layout");
-    leftPanel.style.display = "None"
-    result.style.width = "100%"
-    result.innerHTML = `
-        <div class="plan-container">
-            <div class="plan-header">
-                <div class="brand">Bodyple</div>
-                <div class="plan-info">
-                    <h1>${heading}</h1>
-                    <p>Based on your BMI: ${BMI.toFixed(1)}</p>
-                </div>
-                <div class="goal-tag">Target Goal: <span class="fit-text">FIT</span></div>
-            </div>
+    fetch('http://localhost:5000/calculate-bmi', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({
+            userId: activeUserId,
+            weight: weight,
+            height: heightInMeters * 100 
+        })
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error("Failed to save BMI to database");
+        }
+        return res.json();
+    })
+    .then(data => {
+        console.log("BMI Data successfully saved in MongoDB:", data);
+        
+        const finalBMI = data.userBMI; 
 
-            <div class="plan-body">
+        const leftPanel = document.getElementById("layout");
+        if (leftPanel) leftPanel.style.display = "none";
+        
+        if (result) {
+            result.style.width = "100%";
+            result.innerHTML = `
+                <div class="plan-container">
+                    <div class="plan-header">
+                        <div class="brand">Bodyple</div>
+                        <div class="plan-info">
+                            <h1>${heading}</h1>
+                            <p>Based on your BMI: ${finalBMI}</p> 
+                        </div>
+                        <div class="goal-tag">Target Goal: <span class="fit-text">FIT</span></div>
+                    </div>
 
-                <div class="workout-box">
-                    ${workout}
-                </div>
+                    <div class="plan-body">
+                        <div class="workout-box">
+                            ${workout}
+                        </div>
 
-                <div class="diet-box">
-                    <div class="section-title">DIET PLAN 🥗</div>
-                    <div class="content-wrapper">
-                        ${diet}
+                        <div class="diet-box">
+                            <div class="section-title">DIET PLAN 🥗</div>
+                            <div class="content-wrapper">
+                                ${diet}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboardbtn">
+                         <button onclick="window.location.href='dashboard.html';">Continue to Dashboard</button>
                     </div>
                 </div>
-            </div>
-
-            <div class ="dashboardbtn">
-                 <button onclick="window.location.href='dashboard.html';">Continue to Dashboard</button>
-            </div>
-        </div>
-    `;
+            `;
+        }
+    })
+    .catch(err => {
+        console.error("Database saving error:", err);
+        if (mssg) mssg.innerText = "Database error! Data could not be saved.";
+    });
 };
