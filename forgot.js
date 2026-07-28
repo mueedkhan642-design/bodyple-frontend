@@ -19,7 +19,7 @@ const forgotpassword = async () => {
     }
 
     try {
-        const response = await fetch("http://localhost:5000/forgot-password", {
+        const response = await fetch("https://bodyple-backend.vercel.app/forgot-password", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -944,7 +944,7 @@ const plan = () => {
 
     localStorage.setItem("user_fitness_category", category);
 
-    fetch('http://localhost:5000/calculate-bmi', {
+    fetch('https://bodyple-backend.vercel.app/calculate-bmi', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json' 

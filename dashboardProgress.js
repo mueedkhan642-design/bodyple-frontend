@@ -19,7 +19,7 @@ const getActiveUserId = () => {
 };
 
 const fetchNutritionConfig = () => {
-    fetch('http://localhost:5000/get-nutrition-config')
+    fetch('https://bodyple-backend.vercel.app/get-nutrition-config')
         .then(res => res.json())
         .then(data => {
             targets = data.targets || {};
@@ -59,7 +59,7 @@ const saveDietToDB = () => {
 
     localStorage.setItem("user_daily_diet", JSON.stringify(validEntries));
 
-    fetch('http://localhost:5000/save-diet', {
+    fetch('https://bodyple-backend.vercel.app/save-diet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -88,7 +88,7 @@ const loadSavedDiet = () => {
         return;
     }
 
-    fetch(`http://localhost:5000/get-diet?userId=${userId}`)
+    fetch(`https://bodyple-backend.vercel.app/get-diet?userId=${userId}`)
         .then(res => res.json())
         .then(response => {
             const dietData = response.data || [];
@@ -333,7 +333,7 @@ const loadUserBMIHistory = () => {
         return;
     }
 
-    fetch(`http://localhost:5000/get-user-history?userId=${userId}`)
+    fetch(`https://bodyple-backend.vercel.app/get-user-history?userId=${userId}`)
         .then(async (res) => {
             const data = await res.json();
             if (!res.ok) {

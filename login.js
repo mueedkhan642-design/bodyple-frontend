@@ -8,7 +8,7 @@ const Login = () => {
         return;
     }
 
-    fetch('http://localhost:5000/login', {
+    fetch('https://bodyple-backend.vercel.app/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
