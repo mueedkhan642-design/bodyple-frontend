@@ -31,7 +31,19 @@ const fetchNutritionConfig = () => {
 
 const saveDietToDB = () => {
     const userId = getActiveUserId();
-    const category = localStorage.getItem("user_fitness_category") || "";
+    const category = localStorage.getItem("user_fitness_category");
+    if (!category || category.trim() === "") {
+        try {
+            const historyRes = await fetch(`https://bodyple-backend.vercel.app/get-user-history?userId=${userId}`);
+            const historyData = await historyRes.json();
+            if (historyData && historyData.category) {
+                category = historyData.category;
+                localStorage.setItem("user_fitness_category", category);
+            }
+        } catch (e) {
+            console.error("Failed to recover category automatically", e);
+        }
+    }
 
     if (!userId) {
         alert("User session not found! Please log out and log in again.");
@@ -64,7 +76,7 @@ const saveDietToDB = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             userId: userId,
-            category: category,
+            category: category || "",
             dietData: dailyEntries
         })
     })
