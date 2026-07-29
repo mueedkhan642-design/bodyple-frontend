@@ -33,7 +33,6 @@ const saveDietToDB = async () => {
     const userId = getActiveUserId();
     let category = localStorage.getItem("user_fitness_category");
 
-    // Fix 1: If category is missing in localStorage, try fetching from user history first
     if (!category || category.trim() === "") {
         try {
             const historyRes = await fetch(`https://bodyple-backend.vercel.app/get-user-history?userId=${userId}`);
@@ -78,7 +77,7 @@ const saveDietToDB = async () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             userId: userId,
-            category: category || "", // Now populated from local storage or recovered history
+            category: category || "", 
             dietData: dailyEntries
         })
     })
