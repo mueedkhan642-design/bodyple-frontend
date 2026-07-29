@@ -5,11 +5,11 @@ let dietDatabase = {};
 const getActiveUserId = () => {
     const directId = localStorage.getItem("user_id");
     if (directId) return directId;
-    
+
     try {
         const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
         if (loggedInUser && loggedInUser.id) {
-            localStorage.setItem("user_id", loggedInUser.id); 
+            localStorage.setItem("user_id", loggedInUser.id);
             return loggedInUser.id;
         }
     } catch (e) {
@@ -108,14 +108,13 @@ const loadSavedDiet = () => {
             const dietData = response.data || [];
             const savedCategory = response.category;
 
-            // Fix 2: Only overwrite local storage category if response actually contains a valid category
             if (savedCategory && savedCategory.trim() !== "") {
                 localStorage.setItem("user_fitness_category", savedCategory);
             }
 
             const rows = document.querySelectorAll("tbody tr");
 
-            if (dietData.length > 0) {
+            if (dietData.length > 0 && rows.length > 0) {
                 dietData.forEach((entry, index) => {
                     if (rows[index]) {
                         const inputs = rows[index].querySelectorAll("textarea");
@@ -134,6 +133,7 @@ const loadSavedDiet = () => {
                 );
 
                 if (validEntries.length > 0) {
+                    localStorage.setItem("user_daily_diet", JSON.stringify(validEntries));
                     disableInputs(true);
                 }
 
@@ -145,6 +145,11 @@ const loadSavedDiet = () => {
             updateProgressButtonStatus();
         });
 };
+window.addEventListener("load", () => {
+    fetchNutritionConfig();
+    loadUserBMIHistory();
+    loadSavedDiet();
+});
 
 const disableInputs = (shouldDisable) => {
     const textareas = document.querySelectorAll("tbody textarea");
@@ -366,7 +371,7 @@ const logout = () => {
     localStorage.removeItem("user_id");
     localStorage.removeItem("loggedInUser");
     localStorage.removeItem("authToken");
-    localStorage.clear(); 
+    localStorage.clear();
 
     window.location.replace("index.html");
 };
